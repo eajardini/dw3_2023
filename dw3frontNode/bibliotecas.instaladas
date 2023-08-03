@@ -14,8 +14,8 @@ npm i
 4) Executar a aplicação e testar
 DEBUG=dw3frontnode:* npm start
 
-5) Instalar as bibliotecasx bcrypt
-npm i express-session axios dotenv
+5) Instalar as bibliotecas 
+npm i express-session axios dotenv body-parser
 
 
 

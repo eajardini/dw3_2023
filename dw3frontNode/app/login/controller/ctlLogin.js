@@ -5,6 +5,7 @@ axios = require("axios");
 const Login = async (req, res) => {
   let resp;
   //req.session.destroy();
+  console.log("[ctlLogin|Login] valor de body:", req.body);
   if (req.method == "POST" && req.body.username !== "" ) {
     console.log("[ctlLogin.js] Valor ServidorDW:", process.env.SERVIDOR_DW3);
     resp = await axios.post(process.env.SERVIDOR_DW3 + "/Login", {

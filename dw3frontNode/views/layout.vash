@@ -57,7 +57,7 @@
                                 <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
                                     data-bs-parent="#sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="alunos">Manutenção de alunos</a>
+                                        <a class="nav-link" href="/alunos">Manutenção de alunos</a>
                                     </nav>
                                 </div>
                                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
@@ -97,19 +97,18 @@
     </div>
 
     
-    <script src="js/5.3.0/popper.js_2.11.8_popper.min.js" ></script>
-    <script src="js/5.3.0/bootstrap.min.js"></script>
+    <script src="/js/5.3.0/popper.js_2.11.8_popper.min.js" ></script>
+    <script src="/js/5.3.0/bootstrap.min.js"></script>
     <!-- <script src="js/scripts.js"></script> -->
-    <script src="js/fontawesome/v6.3.0_js_all.js" crossorigin="anonymous"></script>   
+    <script src="/js/fontawesome/v6.3.0_js_all.js" crossorigin="anonymous"></script>   
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script> -->
-    <script src="js/datatables/pdfmake_0.2.7_pdfmake.min.js"></script>
+    <script src="/js/datatables/pdfmake_0.2.7_pdfmake.min.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script> -->
-    <script src="js/datatables/pdfmake_0.2.7_vfs_fonts.js"></script>
+    <script src="/js/datatables/pdfmake_0.2.7_vfs_fonts.js"></script>
     <!-- <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-1.13.5/b-2.4.1/b-html5-2.4.1/datatables.min.js"></script> -->
-    <script src="js/datatables/html5-2.4.1_datatables.min.js"></script>
-
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script> -->
-    <script src="js/datatables/moment_2.29.2_moment.min.js"></script>
+    <script src="/js/datatables/html5-2.4.1_datatables.min.js"></script>    
+    <script src="/js/datatables/moment_2.29.2_moment.min.js"></script>
+    <script src="/js/jquery.maskMoney.min.js"></script>
 
     
 

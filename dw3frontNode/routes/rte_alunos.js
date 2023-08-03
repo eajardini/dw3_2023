@@ -18,9 +18,12 @@ function authenticationMiddleware(req, res, next) {
     next();
 }; 
   
-/* GET home page. */
-router.get('/', authenticationMiddleware,  alunosApp.getAllAlunos);
+/* GET métodos */
+router.get('/', authenticationMiddleware, alunosApp.getAllAlunos);
+router.get('/insertAlunos', authenticationMiddleware, alunosApp.insertAlunos);
 
+/* POST métodos */
+router.post('/insertAlunos', authenticationMiddleware, alunosApp.insertAlunos);
 
 
 module.exports = router;

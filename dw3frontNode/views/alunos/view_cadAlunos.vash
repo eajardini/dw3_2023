@@ -1,0 +1,82 @@
+@html.extend('layout', function(model){
+
+@html.block('content', function(model){
+
+
+<main>
+
+    <div class="container-fluid px-4">
+        <h1 class="mt-2">@model.title</h1>
+        <ol class="breadcrumb mb-2">
+            <li class="breadcrumb-item active">@model.title</li>
+        </ol>
+        <div class="row">
+            <div class="col-xl-12">
+
+                <div class="card-header">
+
+                </div>
+
+                <div class="card-body">
+                    <div class="col-xl-4">
+                        <form >
+                            <div class="mb-1">
+                                <label for="prontuario"  class="form-label">Prontuário</label>
+                                <input type="text" name="prontuario"  class="form-control" id="prontuario">
+                            </div>
+
+                            <div class="mb-1">
+                                <label for="nome" class="form-label">Nome</label>
+                                <input type="text" name ="nome" class="form-control" id="nome">
+                            </div>
+
+                            <div class="mb-1">
+                                <label for="endereco" class="form-label">Endereco</label>
+                                <input type="text" name ="endereco" class="form-control" id="endereco">
+                            </div>
+
+                            <div class="mb-1">
+                                <label for="rendafamiliar" class="form-label">Renda familiar</label>
+                                <input type="text" name ="rendafamiliar" class="form-control" id="rendafamiliar" data-thousands="." data-decimal="," data-prefix="R$ ">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="datanascimento" class="form-label">Data nascimento</label>
+                                <input type="date" name ="datanascimento" class="form-control" id="datanascimento">
+                            </div>                            
+                            @if (model.oper=="c") {
+                                <button type="submit" class="btn btn-success me-2" onclick="window.location.href = '/alunos/insertAlunos'" formmethod="POST">Salvar</button>
+                            }
+                            @if (model.oper=="u") {
+                                <button type="submit" class="btn btn-warning me-2">Alterar</button>
+                            }
+                            @if (model.oper=="d") {
+                                <button type="submit" class="btn btn-danger">Remover</button>
+                            }
+                            <button type="button"  class="btn btn-primary" onclick="window.location.href = '/alunos'">Fechar sem salvar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+})
+
+})
+
+<script>
+
+    $(function () {
+        $('#rendafamiliar').maskMoney();
+    })
+    function novoAluno(idPar) {
+        if (!idPar) {
+            alert("Novo aluno");
+        } else {
+            alert("Novo aluno com parâmetro:".idPar);
+        }
+    }
+</script>
