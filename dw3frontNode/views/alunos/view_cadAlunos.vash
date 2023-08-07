@@ -18,43 +18,81 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="col-xl-4">
-                        <form >
+                    <div class="col-xl-5">
+                        <form id="form">
+                            <div class="mb-1" style="display: none">
+                                <input type="text" name="id" value="@model.data.alunoid" class="form-control" id="id">
+                            </div>
                             <div class="mb-1">
-                                <label for="prontuario"  class="form-label">Prontuário</label>
-                                <input type="text" name="prontuario"  class="form-control" id="prontuario">
+                                <label for="prontuario" class="form-label">Prontuário</label>
+                                <input type="text" name="prontuario" value="@model.data.prontuario" class="form-control"
+                                    id="prontuario" @(model.oper=='v' ? 'disabled' : '' )>
                             </div>
 
                             <div class="mb-1">
                                 <label for="nome" class="form-label">Nome</label>
-                                <input type="text" name ="nome" class="form-control" id="nome">
+                                <input type="text" name="nome" value="@model.data.nome" class="form-control" id="nome"
+                                    @(model.oper=='v' ? 'disabled' : '' )>
                             </div>
 
                             <div class="mb-1">
                                 <label for="endereco" class="form-label">Endereco</label>
-                                <input type="text" name ="endereco" class="form-control" id="endereco">
+                                <input type="text" name="endereco" value="@model.data.endereco" class="form-control"
+                                    id="endereco" @(model.oper=='v' ? 'disabled' : '' )>
                             </div>
 
                             <div class="mb-1">
                                 <label for="rendafamiliar" class="form-label">Renda familiar</label>
-                                <input type="text" name ="rendafamiliar" class="form-control" id="rendafamiliar" data-thousands="." data-decimal="," data-prefix="R$ ">
+                                <input type="text" name="rendafamiliar" value="@model.data.rendafamiliar"
+                                    class="form-control" id="rendafamiliar" data-thousands="." data-decimal=","
+                                    @(model.oper=='v' ? 'disabled' : '' )>
+                            </div>
+
+                            <div class="mb-1">
+                                <label for="" class="form-label">Curso</label>
+                                <select class="form-select" aria-label="Default select example" id="cursoid"
+                                    @(model.oper=='v' ? 'disabled' : '' ) name="cursoid">
+                                    @model.curso.forEach(function(item){
+                                    @if(model.data.cursoid === item.cursoid) {
+                                    <option value="@item.cursoid" selected>@item.descricao</option>
+                                    } else {
+                                    <option value="@item.cursoid">@item.descricao</option>
+                                    }
+                                    });
+                                </select>
                             </div>
 
                             <div class="mb-4">
-                                <label for="datanascimento" class="form-label">Data nascimento</label>
-                                <input type="date" name ="datanascimento" class="form-control" id="datanascimento">
-                            </div>                            
+                                <label for="datanascimento" class="form-label">Data nascimento <span
+                                        style="color: red;">*</span></label>
+                                <input type="date" name="datanascimento" value="@model.data.datanascimento"
+                                    class="form-control" id="datanascimento" @(model.oper=='v' ? 'disabled' : '' )>
+                            </div>
+
                             @if (model.oper=="c") {
-                                <button type="submit" class="btn btn-success me-2" onclick="window.location.href = '/alunos/insertAlunos'" formmethod="POST">Salvar</button>
+                            <button type="submit" class="btn btn-success me-2" onclick=""
+                                formmethod="POST">Salvar</button>
                             }
-                            @if (model.oper=="u") {
-                                <button type="submit" class="btn btn-warning me-2">Alterar</button>
-                            }
-                            @if (model.oper=="d") {
-                                <button type="submit" class="btn btn-danger">Remover</button>
-                            }
-                            <button type="button"  class="btn btn-primary" onclick="window.location.href = '/alunos'">Fechar sem salvar</button>
+
                         </form>
+                        <div>
+                            @if (model.oper=="vu") {
+                            <button type="button" class="btn btn-warning me-2 mb-3" onclick="alteraRegistro()">Salvar
+                                Alteração</button>
+                            }
+
+                            @if (model.oper=="v") {
+                            <button type="button" class="btn btn-warning me-2 mb-3"
+                                onclick="window.open('/alunos/viewAlunos/' + $('#id').val() + '/vu', '_self')">Alterar</button>
+                            }
+
+                            @if (model.oper=="v") {
+                            <button type="" class="btn btn-danger mb-3"
+                                onclick="deleteAlunos($('#prontuario').val())">Remover</button>
+                            }
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="window.location.href = '/alunos'">Fechar
+                            sem salvar</button>
                     </div>
                 </div>
             </div>
@@ -72,11 +110,63 @@
     $(function () {
         $('#rendafamiliar').maskMoney();
     })
-    function novoAluno(idPar) {
-        if (!idPar) {
-            alert("Novo aluno");
+
+    // function novoAluno() {
+    //     //@ Retira a formatação do campo maskmoney
+    //     event.preventDefault();
+    //     console.log("[view_cadAlunos.vash|novoAluno] nao fez post");
+    //     if($('#datanascimento').val() == ""){
+    //         alert("Data de nascimento em branco");
+    //         return
+    //     }
+    //     //return;
+    //     $('#rendafamiliar').val($('#rendafamiliar').maskMoney('unmasked')[0]);
+    //     window.location.href = '/alunos/insertAlunos'
+
+    // }
+
+    $('#form').on('submit', function () {
+        if ($('#datanascimento').val() == "") {
+            // $('#errormessage').html("Please provide at least an email ");
+            alert("Informe a data de nascimento");
+            return false;
         } else {
-            alert("Novo aluno com parâmetro:".idPar);
+            $('#rendafamiliar').val($('#rendafamiliar').maskMoney('unmasked')[0]);
+            return true;
         }
+    });
+
+    async function alteraRegistro() {
+        // event.preventDefault();        
+        resp = await axios.post("/alunos/viewAlunos", {
+            id: $("#id").val(),
+            prontuario: $("#prontuario").val(),
+            nome: $("#nome").val(),
+            endereco: $("#endereco").val(),
+            rendafamiliar: $('#rendafamiliar').maskMoney('unmasked')[0], //Retira a formatação de money
+            datanascimento: $("#datanascimento").val(),
+            cursoid: $("#cursoid").val(),
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        console.log("[view_cadAlunos.vash|alteraRegistro] valor resp:", resp.data.status);
+        if (resp.data.status == "ok") {
+            alert("Aluno alterado com sucesso!");
+        }
+    }
+
+    async function deleteAlunos(prontuarioPar) {
+        resp = await axios.post("/alunos/DeleteAlunos", {
+            prontuario: prontuarioPar,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+
+
     }
 </script>

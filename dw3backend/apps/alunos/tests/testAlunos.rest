@@ -21,7 +21,7 @@ content-type: application/json
 ### teste de buscar aluno por ID
 POST http://localhost:40000/getAlunoByID HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF3ZSIsImlhdCI6MTY4OTYwMTQxMiwiZXhwIjoxNjg5NjAxNzEyfQ.kIDtcnfKCwxJVQC6tGnuA7ZucHPOfVl4LVtBmRipHNs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF3ZSIsImlhdCI6MTY5MTQxMTU5NCwiZXhwIjoxNjkxNDExODk0fQ.1Ig9H4D6QMW0TSkwJIyv7YZjBO35u5WkOpqhoSBRA1U
 
 {    
     "alunoid": 18
@@ -30,11 +30,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF3Z
 ### teste de inserção de aluno
 POST http://localhost:40000/insertAlunos HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg5NTk4NDczLCJleHAiOjE2ODk1OTg3NzN9.w4euVCi55RrKlfgkZxd3NL4AXdL8QhDhx3aDpP6Rt08
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF3ZSIsImlhdCI6MTY5MTQzNTg3MSwiZXhwIjoxNjkxNDM2NDcxfQ.hAh0VyRfEXvYmhunlJALD-qda8pYr2zzAHobn1yua20
 
 {    
     "alunoid": 0,
-    "prontuario": "pront4",
+    "prontuario": "pront5",
     "nome": "Carlos das Matias",
     "endereco": " Rua das couves",
     "rendafamiliar": 10000,
@@ -46,11 +46,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxN
 ### teste de atualização de aluno
 POST http://localhost:40000/updateAlunos HTTP/1.1
 content-type: application/json
-//Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2NzM0ODE2NDEsInVzZXJuYW1lIjoicXdlIn0.LRKs8uvt-SJ9E9dMGYRkCs7HhMDlqVmwap_zcaoONeQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InF3ZSIsImlhdCI6MTY5MTQzNTg3MSwiZXhwIjoxNjkxNDM2NDcxfQ.hAh0VyRfEXvYmhunlJALD-qda8pYr2zzAHobn1yua20
 
 {    
-    "alunoid": 1,
-    "prontuario": "pront1",
+    "alunoid": 52,
+    "prontuario": "pront109",
     "nome": "xJosé das Neves",
     "endereco": "x Rua das couves",
     "rendafamiliar": 0,

@@ -21,9 +21,12 @@ function authenticationMiddleware(req, res, next) {
 /* GET métodos */
 router.get('/', authenticationMiddleware, alunosApp.getAllAlunos);
 router.get('/insertAlunos', authenticationMiddleware, alunosApp.insertAlunos);
+router.get('/viewAlunos/:id/:oper', authenticationMiddleware, alunosApp.viewAlunos);
 
 /* POST métodos */
 router.post('/insertAlunos', authenticationMiddleware, alunosApp.insertAlunos);
+router.post('/DeleteAlunos', authenticationMiddleware, alunosApp.DeleteAlunos);
+router.post('/viewAlunos', authenticationMiddleware, alunosApp.viewAlunos);
 
 
 module.exports = router;

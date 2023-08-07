@@ -15,7 +15,7 @@ npm i
 DEBUG=dw3frontnode:* npm start
 
 5) Instalar as bibliotecas 
-npm i express-session axios dotenv body-parser
+npm i express-session axios dotenv body-parser moment
 
 
 
