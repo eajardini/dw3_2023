@@ -19,7 +19,7 @@
 
                 <div class="card-body">
                     <div class="col-xl-5">
-                        <form id="form">
+                        <form  id="form">
                             <div class="mb-1" style="display: none">
                                 <input type="text" name="id" value="@model.data.alunoid" class="form-control" id="id">
                             </div>
@@ -87,12 +87,11 @@
                             }
 
                             @if (model.oper=="v") {
-                            <button type="" class="btn btn-danger mb-3"
-                                onclick="deleteAlunos($('#prontuario').val())">Remover</button>
+                            <button type="" class="btn btn-danger mb-3" onclick="deleteAlunos()">Remover</button>
                             }
                         </div>
                         <button type="button" class="btn btn-primary" onclick="window.location.href = '/alunos'">Fechar
-                            sem salvar</button>
+                            sem salvar</button>                        
                     </div>
                 </div>
             </div>
@@ -110,20 +109,6 @@
     $(function () {
         $('#rendafamiliar').maskMoney();
     })
-
-    // function novoAluno() {
-    //     //@ Retira a formatação do campo maskmoney
-    //     event.preventDefault();
-    //     console.log("[view_cadAlunos.vash|novoAluno] nao fez post");
-    //     if($('#datanascimento').val() == ""){
-    //         alert("Data de nascimento em branco");
-    //         return
-    //     }
-    //     //return;
-    //     $('#rendafamiliar').val($('#rendafamiliar').maskMoney('unmasked')[0]);
-    //     window.location.href = '/alunos/insertAlunos'
-
-    // }
 
     $('#form').on('submit', function () {
         if ($('#datanascimento').val() == "") {
@@ -151,22 +136,39 @@
                 'Content-Type': 'application/json',
             }
         });
-        console.log("[view_cadAlunos.vash|alteraRegistro] valor resp:", resp.data.status);
+        //console.log("[view_cadAlunos.vash|alteraRegistro] valor resp:", resp.data.status);
         if (resp.data.status == "ok") {
             alert("Aluno alterado com sucesso!");
+        } else {
+            alert("Houve erro ao alterar os dados dos alunos!");
         }
     }
 
     async function deleteAlunos(prontuarioPar) {
         resp = await axios.post("/alunos/DeleteAlunos", {
-            prontuario: prontuarioPar,
+            id: $("#id").val(),
         }, {
             headers: {
                 'Content-Type': 'application/json',
             }
         });
 
+        if (resp.data.status == "ok") {
+            alert("Aluno removido com sucesso!");
+            window.open("/alunos", "_self");
+        } else {
+            alert("Houve erro ao remover os dados dos alunos!");
+        }
+    }
 
+    async function testeFormData() {
+        const form = document.getElementById("form");
+        const formData = new FormData(form);          
 
+        // for (const [key, value] of formData) {
+        //     console.log("Valores:" + `${key}: ${value}`);
+        // }
+
+        console.log("Prontuario: ", formData.get("prontuario")); 
     }
 </script>

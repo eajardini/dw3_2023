@@ -21,7 +21,7 @@ routerApp.post("/insertAlunos", appLogin.AutenticaJWT, appAlunos.insertAlunos);
 routerApp.post("/updateAlunos", appAlunos.updateAlunos);
 routerApp.post("/DeleteAlunos", appAlunos.DeleteAlunos);
 
-//Rotas de Alunos
+//Rotas de Cursos
 routerApp.get("/GetAllCursos", appCursos.GetAllCursos);
 routerApp.post("/GetCursoByID", appCursos.GetCursoByID);
 routerApp.post("/InsertCursos", appCursos.InsertCursos);

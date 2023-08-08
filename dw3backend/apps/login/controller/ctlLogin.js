@@ -2,8 +2,7 @@ const jwt = require("jsonwebtoken");
 const bCrypt = require("bcryptjs");
 const mdlLogin = require("../model/mdlLogin");
 
-const Login = async (req, res, next) => {
-  //esse teste abaixo deve ser feito no seu banco de dados
+const Login = async (req, res, next) => { 
 
   const credencial = await mdlLogin.GetCredencial(req.body.username);  
   if (credencial.length == 0) {
@@ -31,7 +30,7 @@ function AutenticaJWT(req, res, next) {
 
   const bearer = tokenHeader.split(" ");
   const token = bearer[1];
-  //token = bearerToken;
+
   jwt.verify(token, process.env.SECRET_API, function (err, decoded) {
     if (err)
       return res

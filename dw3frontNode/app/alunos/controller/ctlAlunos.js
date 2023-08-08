@@ -173,7 +173,7 @@ const viewAlunos = (req, res) =>
       } else {
         // Código vai entrar quando o usuário clicar no botão Alterar e requisição for POST
         oper = "vu";
-        console.log("[ctlAlunos|viewAlunos] POST oper:", oper);        
+        console.log("[ctlAlunos|viewAlunos] POST oper:", oper);
         const alunoREG = validateForm(req.body);
         console.log("[ctlAlunos|viewAlunos] POST id:", alunoREG.id);
         const id = parseInt(alunoREG.id);
@@ -196,26 +196,15 @@ const viewAlunos = (req, res) =>
             },
           }
         );
-        console.log(
-          "[ctlAlunos|viewAlunos] POST resp.config.data:",
-          resp.config.data
-        );
-        console.log(
-          "[ctlAlunos|viewAlunos] POST resp.data.status:",
-          resp.data.status
-        );
-        
-        console.log(
-          "[ctlAlunos|viewAlunos] POST resp.data.linhas afetadas:",
-          resp.data.linhasAfetadas
-        );
-        
+
         if (resp.data.status == "ok") {
-          
-          res.json({ status: 'ok' });
+          res.json({ status: "ok" });
+        } else {
+          res.json({ status: "erro" });
         }
       }
     } catch (erro) {
+      res.json({ status: "[ctlAlunos.js|viewAlunos] Aluno não pode ser alterado" });
       console.log(
         "[ctlAlunos.js|viewAlunos] Try Catch: Erro não identificado",
         erro
@@ -230,12 +219,27 @@ const DeleteAlunos = (req, res) =>
     userName = req.session.userName;
     token = req.session.token;
     try {
-      oper = "c";
-      const prontuario = req.body.prontuario;
-      console.log(
-        "[ctlAlunos|DeleteAlunos] Entrou no DeleteAlunos com prontuario: ",
-        prontuario
+      oper = "v";
+      const id = parseInt(req.body.id);
+    
+      resp = await axios.post(
+        process.env.SERVIDOR_DW3 + "/DeleteAlunos",
+        {
+          alunoid: id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
       );
+
+      if (resp.data.status == "ok") {
+        res.json({ status: "ok" });
+      } else {
+        res.json({ status: "erro" });
+      }
     } catch (erro) {
       console.log(
         "[ctlAlunos.js|DeleteAlunos] Try Catch: Erro não identificado",
