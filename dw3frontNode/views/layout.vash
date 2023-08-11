@@ -99,7 +99,7 @@
     
     <script src="/js/5.3.0/popper.js_2.11.8_popper.min.js" ></script>
     <script src="/js/5.3.0/bootstrap.min.js"></script>
-    <!-- <script src="js/scripts.js"></script> -->
+    <script src="/js/scripts.js"></script> 
     <script src="/js/fontawesome/v6.3.0_js_all.js" crossorigin="anonymous"></script>   
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script> -->
     <script src="/js/datatables/pdfmake_0.2.7_pdfmake.min.js"></script>

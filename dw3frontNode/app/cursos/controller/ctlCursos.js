@@ -17,79 +17,17 @@ const getAllCursos = (req, res) =>
     }
   })();
 
-
-  //@ Abre e faz operações de CRUD no formulário de cadastro de cursos
-const insertCursos = (req, res) =>
+//@ Abre formulário de cadastro de cursos
+const openCursosInsert = (req, res) =>
   (async () => {
     var oper = "";
-    var registro = {};
-    var cursos = {};
     userName = req.session.userName;
     token = req.session.token;
     try {
       if (req.method == "GET") {
         oper = "c";
-        //console.log("[crlAlunos|insertAlunos] valor de cursos:", cursos.data.registro);
-        registro = {
-          cursoid: 0,
-          codigo: "",
-          descricao: "",
-          ativo: true,
-          deleted: false,
-        };
-
-        res.render("alunos/view_cadCursos", {
-          title: "Cadastro de cursos",          
-          oper: oper,
-          userName: userName,
-        });
-      } else {
-        oper = "c";
-        const alunoREG = validateForm(req.body);
-        resp = await axios.post(
-          process.env.SERVIDOR_DW3 + "/insertAlunos",
-          {
-            alunoid: 0,
-            prontuario: alunoREG.prontuario,
-            nome: alunoREG.nome,
-            endereco: alunoREG.endereco,
-            rendafamiliar: alunoREG.rendafamiliar,
-            datanascimento: alunoREG.datanascimento,
-            cursoid: alunoREG.cursoid,
-            deleted: false,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token,
-            },
-          }
-        );
-
-        console.log("[ctlAlunos|insertAlunos] resp:", resp.data);
-        if (resp.data.status == "ok") {
-          registro = {
-            alunoid: 0,
-            prontuario: "",
-            nome: "",
-            endereco: "",
-            rendafamiliar: "0.00",
-            datanascimento: "",
-            cursoid: 0,
-            deleted: false,
-          };
-        } else {
-          registro = alunoREG;
-        }
-        cursos = await axios.get(
-          process.env.SERVIDOR_DW3 + "/GetAllCursos",
-          {}
-        );
-        oper = "c";
-        res.render("alunos/view_cadAlunos", {
-          title: "Cadastro de alunos",
-          data: registro,
-          curso: cursos.data.registro,
+        res.render("cursos/view_cadCursos", {
+          title: "Cadastro de cursos",
           oper: oper,
           userName: userName,
         });
@@ -102,13 +40,111 @@ const insertCursos = (req, res) =>
     }
   })();
 
+//@ Função para validar campos no formulário
+function validateForm(regFormPar) {
+  if (regFormPar.cursoid == "") {
+    regFormPar.cursoid = 0;
+  }
+  regFormPar.ativo = regFormPar.ativo === "true";
+  regFormPar.deleted = regFormPar.deleted === "true";
 
+  return regFormPar;
+}
+
+//@ Abre formulário de cadastro de cursos
+const openCursosUpdate = (req, res) =>
+  (async () => {
+    var oper = "";
+    userName = req.session.userName;
+    token = req.session.token;
+    try {
+      if (req.method == "GET") {
+        oper = "u";
+        const id = req.params.id;
+        parseInt(id);
+        res.render("cursos/view_cadCursos", {
+          title: "Cadastro de cursos",
+          oper: oper,
+          idBusca: id,
+          userName: userName,
+        });
+      }
+    } catch (erro) {
+      console.log(
+        "[ctlAlunos.js|insertAlunos] Try Catch: Erro não identificado",
+        erro
+      );
+    }
+  })();
+
+const getDados = (req, res) =>
+  (async () => {
+    const idBusca = req.body.idBusca;    
+    parseInt(idBusca);
+    console.log("[ctlCursos.js|getDados] valor id :", idBusca);
+    try {
+      resp = await axios.post(
+        process.env.SERVIDOR_DW3 + "/GetCursoByID",
+        {
+          cursoid: idBusca,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      if (resp.data.status == "ok") {
+        res.json({ status: "ok", registro: resp.data.registro[0] });
+      }
+    } catch (error) { 
+      console.log(
+        "[ctlCursos.js|getDados] Try Catch: Erro não identificado",
+        erro
+      );
+    }
+    
+  })();
+
+//@ Realiza inserção de cursos
+const insertCursos = (req, res) =>
+  (async () => {
+    token = req.session.token;
+    try {
+      if (req.method == "POST") {
+        const regPost = validateForm(req.body);
+        regPost.cursoid = 0;
+        const resp = await axios.post(
+          process.env.SERVIDOR_DW3 + "/InsertCursos",
+          regPost,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+
+        if (resp.data.status == "ok") {
+          res.json({ status: "ok", mensagem: "Curso inserido com sucesso!" });
+        } else {
+          res.json({ status: "erro", mensagem: "Erro ao inserir curso!" });
+        }
+      }
+    } catch (erro) {
+      console.log(
+        "[ctlAlunos.js|insertAlunos] Try Catch: Erro não identificado",
+        erro
+      );
+    }
+  })();
 module.exports = {
-    getAllCursos,
-    //cadAlunos,
-    // getAlunoByID,
-    //viewAlunos,
-    insertCursos,
-    // updateAlunos,
-    //DeleteAlunos,
-  };
+  getAllCursos,
+  openCursosInsert,
+  openCursosUpdate,
+  getDados,
+  insertCursos,
+  // updateAlunos,
+  //DeleteAlunos,
+};

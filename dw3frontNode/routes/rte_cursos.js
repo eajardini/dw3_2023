@@ -20,8 +20,11 @@ function authenticationMiddleware(req, res, next) {
   
 /* GET métodos */
 router.get('/', authenticationMiddleware, cursosApp.getAllCursos);
+router.get('/openCursosInsert', authenticationMiddleware, cursosApp.openCursosInsert);
+router.get('/openCursosUpdate/:id', authenticationMiddleware, cursosApp.openCursosUpdate);
 
-
-
+/* POST métodos */
+router.post('/insertCursos', authenticationMiddleware, cursosApp.insertCursos);
+router.post('/getDados', authenticationMiddleware, cursosApp.getDados);
 
 module.exports = router;
