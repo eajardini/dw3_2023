@@ -26,5 +26,10 @@ router.get('/openCursosUpdate/:id', authenticationMiddleware, cursosApp.openCurs
 /* POST métodos */
 router.post('/insertCursos', authenticationMiddleware, cursosApp.insertCursos);
 router.post('/getDados', authenticationMiddleware, cursosApp.getDados);
+router.post('/updateCursos', authenticationMiddleware, cursosApp.updateCursos);
+router.post('/deleteCursos', authenticationMiddleware, cursosApp.deleteCursos);
+
+
+
 
 module.exports = router;

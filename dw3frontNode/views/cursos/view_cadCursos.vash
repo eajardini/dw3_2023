@@ -11,25 +11,25 @@
         <div class="card-header"></div>
 
         <div class="card-body">
-          <div class="col-sm-6 col-xl-5">
+          <div class="col-sm-6 col-xxl-12">
             <form id="form">
               <div class="mb-1" style="display: none">
                 <input type="number" name="cursoid" class="form-control" id="cursoid" />
               </div>
-              <div class="mb-1 row ">                
-                  <label for="codigo" class="col-sm-2 col-xl-2 col-form-label required">Código:</label>
-                  <div class="col-sm-4 col-xl-3">
-                    <input type="text" name="codigo" class="form-control-plaintext" id="codigo" maxlength="10" required readonly />
-                  </div>                
+              <div class="mb-1 row ">
+                <label for="codigo" class="col-sm-2 col-xxl-1 col-form-label required">Código:</label>
+                <div class="col-sm-4 col-xxl-2">
+                  <input type="text" name="codigo" class="form-control-plaintext" id="codigo" maxlength="10" required readonly />
+                </div>
 
-                <label for="descricao" class="col-sm-2 col-xl-2 col-form-label required">Descrição:</label>
-                <div class="col-sm-4 col-xl-5">
+                <label for="descricao" class="col-sm-2 col-xxl-1 col-form-label required">Descrição:</label>
+                <div class="col-sm-4 col-xxl-3">
                   <input type="text" name="descricao" class="form-control-plaintext" id="descricao" maxlength="50" required readonly />
                 </div>
               </div>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="ativo" id="ativo" checked disabled/>
+                <input class="form-check-input" type="checkbox" name="ativo" id="ativo" checked disabled />
                 <label class="form-check-label" for="ativo"> ativo </label>
               </div>
             </form>
@@ -55,8 +55,8 @@
               Remover
             </button>
 
-            <button type="button" class="btn btn-primary" onclick="window.location.href = '/cursos'" id="btnFecharSemSalvar">
-              Fechar sem salvar
+            <button type="button" class="btn btn-primary" onclick="window.location.href = '/cursos'" id="btnFechar">
+              Fechar
             </button>
           </div>
         </div>
@@ -75,7 +75,7 @@
 
   //@ Limpa o conteúdo dos campos do formulário
   async function limpaForm() {
-    
+
     $("#form").each(function() {
       this.reset();
     });
@@ -117,7 +117,13 @@
       if (resp.data.status == "ok") {
         $("#cursoid").val(resp.data.registro.cursoid);
         $("#codigo").val(resp.data.registro.codigo);
-        $("#descricao").val(resp.data.registro.descricao);        
+        $("#descricao").val(resp.data.registro.descricao);
+        if (resp.data.registro.ativo) {
+          $("#ativo").prop("checked", true);
+        } else {
+          $("#ativo").prop("checked", false);
+        }
+
       } else {
         alert("Houve erro ao buscar os dados dos alunos!");
       }
@@ -127,7 +133,7 @@
   }
 
   //@ Valida o formulário antes de salvá-lo
-  function validaForm() {
+  function validaForm(formDataPar) {
     var validado = true;
     $("#form input, #form select").each(function(index) {
       var input = $(this);
@@ -143,6 +149,14 @@
         return false;
       }
     });
+
+    if (formDataPar.get("ativo") == "on") {
+      formDataPar.set("ativo", true);
+    } else {
+      formDataPar.set("ativo", false);
+    }
+    formDataPar.set("deleted", false);
+
     return validado;
   }
 
@@ -150,14 +164,7 @@
   async function btnSalvar() {
     const formData = new FormData(form);
 
-    if (formData.get("ativo") == "on") {
-      formData.set("ativo", true);
-    } else {
-      formData.set("ativo", false);
-    }
-    formData.set("deleted", false);
-
-    const validado = validaForm();
+    const validado = validaForm(formData);
     if (!validado) {
       return;
     }
@@ -191,7 +198,7 @@
     $("#ativo").prop("disabled", false);
   }
 
-  //@Habilita a alteração
+  //@ Habilita a alteração
   async function btnAlterar() {
     $("#btnSalvarAlteracao").prop("hidden", false);
     $("#btnCancelarAlteracao").prop("hidden", false);
@@ -201,41 +208,75 @@
     habilitaForm();
   }
 
-  //@ Cancela a alteração
-  async function btnCancelarAlteracao() {
-    console.log("[view_cadCursos|btnCancelarAlteracao]Valor do id", $("#cursoid").val());    
-    window.open("/cursos/openCursosUpdate/" + String($("#cursoid").val()),"_self");
+  //@ Salva a alteração
+  //@ console.log("[view_cadCursos|btnSalvarAlteracao] :", )
+  async function btnSalvarAlteracao() {
+    const formData = new FormData(form);
+    const validado = validaForm(formData);
+    if (!validado) {
+      return;
+    }
+
+    try {
+      resp = await axios.post("/cursos/updateCursos", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (resp.data.status == "ok") {
+        alert(resp.data.mensagem);
+        window.open("/cursos/openCursosUpdate/" + String($("#cursoid").val()), "_self");
+      } else {
+        alert("Houve um erro: " + resp.data.mensagem);
+      }
+    } catch (error) {
+      alert("[view_cadCursos|btnSalvarAlteracao]Ocorreu um erro inesperado!" + error);
+    }
+
 
   }
 
-  $(function() {
-    $("#rendafamiliar").maskMoney();
-  });
+  //@ Cancela a alteração
+  //@ console.log("[view_cadCursos|btnCancelarAlteracao] Valor do id", $("#cursoid").val());    
+  async function btnCancelarAlteracao() {
+    window.open("/cursos/openCursosUpdate/" + String($("#cursoid").val()), "_self");
+  }
 
-  async function alteraRegistro() {
-    // event.preventDefault();
-    resp = await axios.post(
-      "/alunos/viewAlunos", {
-        id: $("#id").val(),
-        prontuario: $("#prontuario").val(),
-        nome: $("#nome").val(),
-        endereco: $("#endereco").val(),
-        rendafamiliar: $("#rendafamiliar").maskMoney("unmasked")[0], //Retira a formatação de money
-        datanascimento: $("#datanascimento").val(),
-        cursoid: $("#cursoid").val(),
+  //@ Remove curso
+  //@ console.log("[view_cadCursos|btnSalvarAlteracao] :", )
+  async function btnRemover() { 
+
+    var confirma = confirm("Deseja realmente remover o registro?");
+    if (!confirma) {
+      return; //@ Se o usuário selecionar Cancela, o registro não é removido.
+    }
+    const formData = new FormData(form);
+
+    try {
+      resp = await axios.post("/cursos/deleteCursos", {
+        cursoid: formData.get("cursoid")
       }, {
         headers: {
           "Content-Type": "application/json",
         },
+      });
+
+      if (resp.data.status == "ok") {
+        alert(resp.data.mensagem);
+        window.open("/cursos", "_self");
+      } else {
+        alert("Houve um erro: " + resp.data.mensagem);
       }
-    );
-    //console.log("[view_cadAlunos.vash|alteraRegistro] valor resp:", resp.data.status);
-    if (resp.data.status == "ok") {
-      alert("Aluno alterado com sucesso!");
-    } else {
-      alert("Houve erro ao alterar os dados dos alunos!");
+    } catch (error) {
+      alert("[view_cadCursos|btnSalvarAlteracao]Ocorreu um erro inesperado!" + error);
     }
   }
+
+
+  $(function() {
+    $("#rendafamiliar").maskMoney();
+  });
 
   async function deleteAlunos(prontuarioPar) {
     resp = await axios.post(

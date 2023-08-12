@@ -44,9 +44,12 @@ const openCursosInsert = (req, res) =>
 function validateForm(regFormPar) {
   if (regFormPar.cursoid == "") {
     regFormPar.cursoid = 0;
+  } else {
+    regFormPar.cursoid = parseInt(regFormPar.cursoid);
   }
-  regFormPar.ativo = regFormPar.ativo === "true";
-  regFormPar.deleted = regFormPar.deleted === "true";
+
+  regFormPar.ativo = regFormPar.ativo === "true"; //converte para true ou false um check componet
+  regFormPar.deleted = regFormPar.deleted === "true"; //converte para true ou false um check componet
 
   return regFormPar;
 }
@@ -77,6 +80,8 @@ const openCursosUpdate = (req, res) =>
     }
   })();
 
+
+//@ Recupera os dados dos cursos
 const getDados = (req, res) =>
   (async () => {
     const idBusca = req.body.idBusca;    
@@ -139,12 +144,81 @@ const insertCursos = (req, res) =>
       );
     }
   })();
+
+ 
+  
+//@ Realiza atualização de cursos
+///@ console.log("[ctlAlunos.js|updateCursos] Valor regPost: ", regPost);
+const updateCursos = (req, res) =>
+  (async () => {
+    token = req.session.token;
+    try {
+      if (req.method == "POST") {
+        const regPost = validateForm(req.body);
+        const resp = await axios.post(
+          process.env.SERVIDOR_DW3 + "/UpdateCursos",
+          regPost,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+
+        if (resp.data.status == "ok") {
+          res.json({ status: "ok", mensagem: "Curso atualizado com sucesso!" });
+        } else {
+          res.json({ status: "erro", mensagem: "Erro ao atualizar curso!" });
+        }
+      }
+    } catch (erro) {
+      console.log(
+        "[ctlAlunos.js|updateCursos] Try Catch: Erro não identificado.",
+        erro
+      );
+    }
+  })();
+
+//@ Realiza remoção soft de cursos
+//@ "[ctlAlunos.js|deleteCursos] Try Catch: Erro não identificado", erro);
+const deleteCursos = (req, res) =>
+(async () => {
+  token = req.session.token;
+  try {
+    if (req.method == "POST") {
+      const regPost = validateForm(req.body);
+      regPost.cursoid = parseInt(regPost.cursoid);
+      const resp = await axios.post(
+        process.env.SERVIDOR_DW3 + "/DeleteCursos",
+        {
+          cursoid: regPost.cursoid,
+        },        
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      if (resp.data.status == "ok") {
+        res.json({ status: "ok", mensagem: "Curso removido com sucesso!" });
+      } else {
+        res.json({ status: "erro", mensagem: "Erro ao remover curso!" });
+      }
+    }
+  } catch (erro) {
+    console.log(
+      "[ctlAlunos.js|deleteCursos] Try Catch: Erro não identificado", erro);
+  }
+})();
 module.exports = {
   getAllCursos,
   openCursosInsert,
   openCursosUpdate,
   getDados,
   insertCursos,
-  // updateAlunos,
-  //DeleteAlunos,
+  updateCursos,
+  deleteCursos,
 };
