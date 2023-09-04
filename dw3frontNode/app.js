@@ -6,12 +6,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session');
-//const bodyParser = require('body-parser')
 
 require('dotenv').config();
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var alunosRouter = require('./routes/rte_alunos');
 var cursosRouter = require('./routes/rte_cursos');
 
@@ -39,11 +37,7 @@ app.use(
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-
-
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/alunos', alunosRouter);
 app.use('/cursos',  cursosRouter);
 
