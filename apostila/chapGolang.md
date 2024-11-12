@@ -237,7 +237,7 @@ func main() {
     fmt.Println("1+2+3 =", res)
 }
 ~~~
-### Funções com múltiplo retorno
+### Funções com múltiplos retornos
 ~~~Go
 package main
 
