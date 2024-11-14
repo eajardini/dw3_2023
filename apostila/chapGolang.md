@@ -56,14 +56,14 @@ func main() {
 }
 ~~~
 Para **executar**, digite:  
-~~~bash
+```bash
 go run hello.go
-~~~
+```
 
 Para **compilar**, digite:  
-~~~bash
+```bash
 go build hello.go
-~~~
+```
 
 ## Exemplos de códigos em Go
 Seguem exemplos de códigos em Go para familiarização com a linguagem. Mais exemplos podem ser vistos em [Go by Example](https://gobyexample.com/)
