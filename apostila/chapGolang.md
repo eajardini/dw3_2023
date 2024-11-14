@@ -55,12 +55,12 @@ func main() {
     fmt.Println("Hello, world!")
 }
 ~~~
-Para **executar**, digite:
+Para **executar**, digite:  
 ~~~Bash
 go run hello.go
 ~~~
 
-Para **compilar**, digite:
+Para **compilar**, digite:  
 ~~~Bash
 go build hello.go
 ~~~
