@@ -56,12 +56,12 @@ func main() {
 }
 ~~~
 Para **executar**, digite:  
-~~~Bash
+~~~bash
 go run hello.go
 ~~~
 
 Para **compilar**, digite:  
-~~~Bash
+~~~bash
 go build hello.go
 ~~~
 
