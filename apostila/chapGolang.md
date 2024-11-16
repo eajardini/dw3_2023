@@ -3,6 +3,8 @@
 ## Introdução
 **Go**, também conhecida como **Golang**, é uma linguagem de programação de código aberto criada pela Google. Desenvolvida com o objetivo de oferecer uma linguagem simples, eficiente e confiável, Go rapidamente se tornou uma escolha popular para diversos tipos de projetos, desde desenvolvimento web até sistemas distribuídos.
 
+---
+
 ## Características da Go
 Segue m algumas das características da linugagem Go
 -   **Simplicidade:** Go possui uma sintaxe clara e concisa, facilitando o aprendizado e a escrita de código.
