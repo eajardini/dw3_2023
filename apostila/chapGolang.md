@@ -1,4 +1,16 @@
-# Servidor Back End em Go (Golang)
+---
+theme: default
+paginate: true
+marp: true
+title: Servidor Back End em Go (Golang)
+author: "Evandro Jardini"
+---
+
+
+
+# <center> Servidor __Back End__ em Go (_Golang_) </center>
+
+---
 
 ## Introdução
 **Go**, também conhecida como **Golang**, é uma linguagem de programação de código aberto criada pela Google. Desenvolvida com o objetivo de oferecer uma linguagem simples, eficiente e confiável, Go rapidamente se tornou uma escolha popular para diversos tipos de projetos, desde desenvolvimento web até sistemas distribuídos.
@@ -6,16 +18,16 @@
 ---
 
 ## Características da Go
-Segue m algumas das características da linugagem Go
+Seguem algumas das características da linugagem Go
 -   **Simplicidade:** Go possui uma sintaxe clara e concisa, facilitando o aprendizado e a escrita de código.
-
--   **Concorrência:** A linguagem oferece suporte nativo a concorrência, permitindo a criação de programas altamente eficientes e escaláveis.
 
 -   **Eficiência:** Compilada em código de máquina, Go gera executables rápidos e otimizados.
 
 -   **Tipagem estática:** A tipagem estática ajuda a prevenir erros comuns em tempo de compilação.
 
 -   **Garbage collector:** Gerenciamento automático de memória, liberando o desenvolvedor da tarefa de alocar e desalocar memória manualmente.
+
+---
 
 ## Áreas de aplicação
 **Go** é utilizada em diversas áreas, incluindo:
@@ -24,12 +36,11 @@ Segue m algumas das características da linugagem Go
 
 -   **Sistemas distribuídos:** Desenvolvimento de sistemas altamente escaláveis e resilientes.
 
--   **Cloud computing:** Construção de aplicações em nuvem.
-
--   **DevOps:** Automação de tarefas e criação de ferramentas para gerenciamento de infraestrutura.
+-   **Cloud computing:** Construção de aplicações em nuvem. 
 
 -   **Data science:** Análise de dados e machine learning.
 
+---
 
 ## Começando com Go
 Para começar a programar em Go, você precisará:
@@ -40,11 +51,15 @@ Para começar a programar em Go, você precisará:
 	PATH="$PATH:/opt/go/bin"
 	export PATH
 	~~~
-4. **Testar a instalação:** Para testar se a Go foi instalada, digite *go version*
+---
 
-5.  **Escrever seu primeiro programa:** Crie um arquivo com extensão `.go` e escreva seu código.
+3. **Testar a instalação:** Para testar se a Go foi instalada, digite *go version*
 
-6.  **Compilar e executar:** Utilize o comando `go run` para compilar e executar seu programa.
+4.  **Escrever seu primeiro programa:** Crie um arquivo com extensão `.go` e escreva seu código.
+
+5.  **Compilar e executar:** Utilize o comando `go run` para compilar e executar seu programa.
+
+---
 
 ### Exemplo:
 ~~~Go
@@ -67,11 +82,15 @@ Para **compilar**, digite:
 go build hello.go
 ```
 
+---
+
 ## Exemplos de códigos em Go
 Seguem exemplos de códigos em Go para familiarização com a linguagem. Mais exemplos podem ser vistos em [Go by Example](https://gobyexample.com/)
 
+---
+
 ### Escrevendo valores
-~~~Go
+```go
 package main
 
 import "fmt"
@@ -87,10 +106,11 @@ func main() {
     fmt.Println(true || false)
     fmt.Println(!true)
 }
-~~~
+```
+---
 
 ### Declaração e uso de variáveis
-~~~Go
+~~~go
 package main
 
 import "fmt"
@@ -114,8 +134,10 @@ func main() {
 }
 ~~~
 
+---
+
 ### Laço For
-~~~Go
+~~~go
 package main
 
 import "fmt"
@@ -150,8 +172,10 @@ func main() {
 }
 ~~~
 
+---
+
 ### Estrutura condicional If/else
-~~~Go
+~~~go
 package main
 
 import "fmt"
@@ -181,6 +205,8 @@ func main() {
     }
 }
 ~~~
+
+---
   
 ### Vetores (Arrays)
 ~~~Go
@@ -215,6 +241,8 @@ func main() {
 }
 ~~~
 
+---
+
 ### Funções
 ~~~Go
 package main
@@ -239,6 +267,9 @@ func main() {
     fmt.Println("1+2+3 =", res)
 }
 ~~~
+
+---
+
 ### Funções com múltiplos retornos
 ~~~Go
 package main
@@ -259,6 +290,9 @@ func main() {
     fmt.Println(c)
 }
 ~~~
+
+---
+
 ### Estruturas (structs)
 ~~~Go
 package main
@@ -287,8 +321,87 @@ func main() {
     fmt.Println(dog)
 }
 ~~~
-   
+---
+## Framework Echo
+- O *Echo* <https://echo.labstack.com/>  é um framework web de alto desempenho e extensível para a linguagem Go (Golang).   
+
+- Foi projetado para simplificar o desenvolvimento de aplicações web, oferecendo uma API simples, intuitiva e flexível. 
+
+- Conhecido por sua velocidade, o *Echo* se destaca por ser leve e eficiente, tornando-se uma excelente escolha para aplicações que exigem alta performance e baixa latência.   
+
+
+A seguir, vamos a alguns exemplos do uso deste framework
+
+---
+
+### Hello word usando o Echo
+Antes de rodamos o _hello word_, vamos organizar nossos programas Golang usando *módulos*. Esse recurso permite que bibliotecas instaladas para um determinado sistema não afete outros sistemas. A biblioteca será instalada somente no módulo que a necessitar.  
+
+Para isso faça:
+1 - No diretório do Hello Word, inicie o uso de módulos da seguinte forma:
+```bash
+go mod init hello
+```
+2 - Note que foram criados os arquivos _go.mod_ e _go.sum_.
+3 - Escreva o programa hello word e depois salve-o
+4 - Por fim, rode:
+```bash
+go mod tidy
+```
+---
+_helloword.go_
+```go
+package main
+
+import (
+	"net/http"
+	
+	"github.com/labstack/echo/v4"
+)
+
+func main() {
+	e := echo.New()
+	e.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello, World!")
+	})
+	e.Logger.Fatal(e.Start(":1323"))
+}
+
+```
+
+---
+
+Rodando o servidor:
+```bash
+$ go run server.go
+```
+
+---
+Uma outra maneira de declarar os métodos http é criar funções separadas e usar seus nomes dentro do método:
+```go
+package main
+
+import (
+	"net/http"
+	
+	"github.com/labstack/echo/v4"
+)
+
+func hello(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello, World!")
+}
+	
+func main() {
+	e := echo.New()
+	e.GET("/", hello)
+	e.Logger.Fatal(e.Start(":1323"))
+}
+
+```
+---
+
+## <center> :+1: FIM </center>
   
-  
+---  
   
 > Written with [StackEdit](https://stackedit.io/).
